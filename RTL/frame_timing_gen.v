@@ -141,9 +141,10 @@ always @(posedge clk or posedge rst) begin
                     lval <= 1'b0; 
                 end else
                     lval <= 1;       
-            end else
+            end else begin
                 lval <= 1'b0;  //If lval_allow is low, lval is low. 
                 counter_fval2lval <= counter_fval2lval + 1;      
+            end
         end else begin
             lval <= 1'b0;
             counter_fval2lval <= 1; 
