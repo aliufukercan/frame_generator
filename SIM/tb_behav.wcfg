@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="134846615000000fs"></ZoomStartTime>
+      <ZoomEndTime time="134878875000001fs"></ZoomEndTime>
+      <Cursor1Time time="134858075000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="171"></NameColumnWidth>
+      <ValueColumnWidth column_width="92"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="14" />
+   <wvobject fp_name="/tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/en" type="logic">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/sel" type="array">
+      <obj_property name="ElementShortName">sel[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sel[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/fval" type="logic">
+      <obj_property name="ElementShortName">fval</obj_property>
+      <obj_property name="ObjectShortName">fval</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/lval" type="logic">
+      <obj_property name="ElementShortName">lval</obj_property>
+      <obj_property name="ObjectShortName">lval</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dval" type="logic">
+      <obj_property name="ElementShortName">dval</obj_property>
+      <obj_property name="ObjectShortName">dval</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/pix_data" type="array">
+      <obj_property name="ElementShortName">pix_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pix_data[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GEN/FRAME_TIME_GEN/counter_fval2lval" type="array">
+      <obj_property name="ElementShortName">counter_fval2lval[31:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_fval2lval[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GEN/FRAME_TIME_GEN/counter_lval2dval" type="array">
+      <obj_property name="ElementShortName">counter_lval2dval[31:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_lval2dval[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GEN/FRAME_TIME_GEN/counter_dval" type="array">
+      <obj_property name="ElementShortName">counter_dval[31:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_dval[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GEN/FRAME_PAT_GEN/width" type="array">
+      <obj_property name="ElementShortName">width[31:0]</obj_property>
+      <obj_property name="ObjectShortName">width[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GEN/FRAME_PAT_GEN/height" type="array">
+      <obj_property name="ElementShortName">height[31:0]</obj_property>
+      <obj_property name="ObjectShortName">height[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GEN/FRAME_TIME_GEN/line_counter" type="array">
+      <obj_property name="ElementShortName">line_counter[31:0]</obj_property>
+      <obj_property name="ObjectShortName">line_counter[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
