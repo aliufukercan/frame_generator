@@ -136,8 +136,7 @@ always @(posedge clk or posedge rst) begin
                 if (counter_lval == (LVAL_HIGH + LVAL_LOW)) begin 
                     lval <= 1'b1;
                     counter_lval <= 1;
-                end 
-                else if (counter_lval >= LVAL_HIGH) begin
+                end else if (counter_lval >= LVAL_HIGH) begin
                     lval <= 1'b0; 
                 end else
                     lval <= 1;       

@@ -119,9 +119,9 @@ always @(posedge clk or posedge rst) begin
             if (stretch >= DVAL_HIGH) begin 
                 if (counter_dval == column) begin
                     pix_value <= reg_pix_value;
-                    if (counter_dval % repeat1 == 0)
-                        reg_pix_value <= reg_pix_value + 1;
                     column <= column + 1;
+                    if (counter_dval % repeat1 == 0)
+                        reg_pix_value <= reg_pix_value + 1;                   
                 end
             end else
                 repeat1 <= repeat1 + 1;    
@@ -189,8 +189,7 @@ always @(posedge clk or posedge rst) begin
             if (dval == 1) begin
                 width <= counter_dval;
                 height <= line_counter;
-                pix_value <= pix_value1;
-                   
+                pix_value <= pix_value1;    
             end               
         end  
         
