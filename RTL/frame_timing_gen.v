@@ -2,13 +2,13 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Timing generations for output pixel values.
-Version: 1.00
+Version: 1.01
 */
 
 module frame_timing_gen #(
 
     parameter FPS               = 30,
-    parameter CLK_FREQ_HZ       = 100000000,
+    parameter CLK_FREQ_HZ       = 100_000_000,
     parameter FVAL2LVAL         = 50,
     parameter LVAL2DVAL         = 80,
 
@@ -74,11 +74,11 @@ always @(posedge clk or posedge rst) begin
 
     end else begin
 
-        
+       
         //Make the signals start with high logic 
         
         if (en_posedge) begin
-            fval <= 1; 
+            fval <= 1'b1; 
             counter_fval <= 1;      // Every posedge en, reset counter_fval and make fval high logic.    
         end    
         
@@ -88,13 +88,12 @@ always @(posedge clk or posedge rst) begin
         
         if (lval_negedge) begin
             if (line_counter >= (ROW_COUNT - 1)) begin        
-                lval <= 0;
-                dval <= 0;
+                lval <= 1'b0;
+                dval <= 1'b0;
                 fval <= 1'b0;            
             end else begin
                 line_counter <= line_counter + 1;
-                
-                lval <= 1;
+                lval <= 1'b1;
                 counter_dval <= 0;
                 counter_lval <= 0;
             end              
@@ -125,7 +124,7 @@ always @(posedge clk or posedge rst) begin
                 fval <= 1'b1;
                 counter_fval <= 1;
             end else
-            counter_fval <= counter_fval + 1;
+                counter_fval <= counter_fval + 1;
         end
         
         
@@ -139,9 +138,9 @@ always @(posedge clk or posedge rst) begin
                 end else if (counter_lval >= LVAL_HIGH) begin
                     lval <= 1'b0; 
                 end else
-                    lval <= 1;       
+                    lval <= 1'b1;       
             end else begin
-                lval <= 1'b0;  //If lval_allow is low, lval is low. 
+                lval <= 1'b0;   
                 counter_fval2lval <= counter_fval2lval + 1;      
             end
         end else begin
@@ -155,7 +154,6 @@ always @(posedge clk or posedge rst) begin
             if (counter_lval2dval >= LVAL2DVAL) begin
                 if (counter_dval == DVAL_HIGH) begin
                     dval <= 1'b0;
-                    //counter_dval <= 1;  
                 end else begin
                     counter_dval <= counter_dval + 1;
                     dval <= 1'b1;

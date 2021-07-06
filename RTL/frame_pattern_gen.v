@@ -2,7 +2,7 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Generation of the patterns.
-Version: 1.00
+Version: 1.01
 */
 
 module frame_pattern_gen #(
@@ -20,7 +20,7 @@ module frame_pattern_gen #(
     input lval_negedge,
     input fval_posedge,
     
-    output reg [8:0] pix_value
+    output reg [7:0] pix_value
     
     );
  
@@ -32,7 +32,7 @@ reg [31:0] counter_dval = 0;
 reg [31:0] repeat1 = 1;
 reg [31:0] stretch = 1;
 reg [31:0] reg_pix_value;
-reg [31:0] column = 0;
+
 
 // Registers and wires for instantiation
 reg [31:0] width;
@@ -51,10 +51,9 @@ always @(posedge clk or posedge rst) begin
     
     if (rst == 1) begin
    
-      column <= 1; 
       repeat1 <= 1;
       stretch <= 1;
-      reg_pix_value <= 8'b00000000;
+      reg_pix_value <= 0;
       line_counter <= 0;
       counter_dval <= 0;
       width <= 0;
@@ -65,16 +64,12 @@ always @(posedge clk or posedge rst) begin
 
         // Resets
         if (lval_negedge) begin
-            if (line_counter >= (ROW_COUNT - 1)) begin        
-                column <= 1;
-            end else begin
-                line_counter <= line_counter + 1;
-                counter_dval <= 0;
-                column <= 1;
-                pix_value <= 0;                 
-                reg_pix_value <= 0;
-                
-            end              
+ 
+            line_counter <= line_counter + 1;
+            counter_dval <= 0;
+            pix_value <= 0;                 
+            reg_pix_value <= 0;
+               
         end            
         
         
@@ -82,7 +77,6 @@ always @(posedge clk or posedge rst) begin
         if (fval_posedge) begin
             
             line_counter <= 0;
-            column <= 1;
             repeat1 <= 1;
             pix_value <= 0;          
             reg_pix_value <= 0;
@@ -96,7 +90,7 @@ always @(posedge clk or posedge rst) begin
         if (dval) begin
             counter_dval <= counter_dval + 1;
         end else 
-            pix_value <= 8'b00000000;
+            pix_value <= 0;
     
         ///////////////////////////
         // Creating the patterns
@@ -117,9 +111,8 @@ always @(posedge clk or posedge rst) begin
         // Gradient
         if (sel == 3'b010) begin
             if (stretch >= DVAL_HIGH) begin 
-                if (counter_dval == column) begin
+                if (dval) begin
                     pix_value <= reg_pix_value;
-                    column <= column + 1;
                     if (counter_dval % repeat1 == 0)
                         reg_pix_value <= reg_pix_value + 1;                   
                 end

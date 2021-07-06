@@ -25,7 +25,6 @@ reg rst = 0;
 reg en = 0;
 reg [2:0] sel = 0;
 
-
 wire fval;
 wire lval;
 wire dval;
