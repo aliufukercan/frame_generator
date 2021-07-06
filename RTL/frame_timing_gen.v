@@ -93,7 +93,6 @@ always @(posedge clk or posedge rst) begin
                 fval <= 1'b0;            
             end else begin
                 line_counter <= line_counter + 1;
-                
                 lval <= 1;
                 counter_dval <= 0;
                 counter_lval <= 0;
@@ -141,7 +140,7 @@ always @(posedge clk or posedge rst) begin
                 end else
                     lval <= 1;       
             end else begin
-                lval <= 1'b0;  //If lval_allow is low, lval is low. 
+                lval <= 1'b0;  
                 counter_fval2lval <= counter_fval2lval + 1;      
             end
         end else begin
