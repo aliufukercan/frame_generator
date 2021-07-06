@@ -20,7 +20,7 @@ module frame_pattern_gen #(
     input lval_negedge,
     input fval_posedge,
     
-    output reg [8:0] pix_value
+    output reg [7:0] pix_value
     
     );
  
