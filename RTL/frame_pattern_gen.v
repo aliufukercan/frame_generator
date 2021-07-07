@@ -2,7 +2,7 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Generation of the patterns.
-Version: 1.01
+Version: 1.02
 */
 
 module frame_pattern_gen #(
@@ -25,19 +25,21 @@ module frame_pattern_gen #(
     );
  
 //Registers
-reg [31:0] line_counter = 0; 
-reg [31:0] counter_dval = 0;
+reg [31:0] line_counter; 
+reg [31:0] counter_dval;
     
 // Gradient registers
-reg [31:0] repeat1 = 1;
-reg [31:0] stretch = 1;
+reg [31:0] repeat1;
+wire [31:0] stretch;
 reg [31:0] reg_pix_value;
-
 
 // Registers and wires for instantiation
 reg [31:0] width;
 reg [31:0] height;
 wire [1:0] pix_value1;    
+
+//Calculate stretch.
+assign stretch = repeat1 * 255; 
 
 // Instantiation for LOGO
 pixel_memory #(.frame_width(DVAL_HIGH),.frame_height(ROW_COUNT)) 
@@ -52,7 +54,6 @@ always @(posedge clk or posedge rst) begin
     if (rst == 1) begin
    
       repeat1 <= 1;
-      stretch <= 1;
       reg_pix_value <= 0;
       line_counter <= 0;
       counter_dval <= 0;
@@ -81,7 +82,6 @@ always @(posedge clk or posedge rst) begin
             pix_value <= 0;          
             reg_pix_value <= 0;
             counter_dval <= 0;
-            
             width <= 0;
             height <= 0;
         end
@@ -91,7 +91,8 @@ always @(posedge clk or posedge rst) begin
             counter_dval <= counter_dval + 1;
         end else 
             pix_value <= 0;
-    
+             
+               
         ///////////////////////////
         // Creating the patterns
         //////////////////////////
@@ -188,13 +189,6 @@ always @(posedge clk or posedge rst) begin
         
         
     end
-end
-
-// Combinational Block for gradient
-always @(clk) begin
-  
-    stretch = repeat1 * 255;
-
 end
 
 endmodule

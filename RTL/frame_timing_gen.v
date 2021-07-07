@@ -2,7 +2,7 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Timing generations for output pixel values.
-Version: 1.01
+Version: 1.02
 */
 
 module frame_timing_gen #(
@@ -34,12 +34,12 @@ module frame_timing_gen #(
 
 // Registers
 
-reg [31:0] counter_fval = 0; 
-reg [31:0] counter_lval = 0;
-reg [31:0] counter_dval = 0;       
-reg [31:0] counter_fval2lval = 1;
-reg [31:0] counter_lval2dval = 1;               
-reg [31:0] line_counter = 0;
+reg [31:0] counter_fval; 
+reg [31:0] counter_lval;
+reg [31:0] counter_dval;       
+reg [31:0] counter_fval2lval;
+reg [31:0] counter_lval2dval;               
+reg [31:0] line_counter;
 
 reg fval_samp;
 reg lval_samp;
@@ -54,7 +54,7 @@ assign fval_posedge_out = fval_posedge;
 
 // Posedge and negedge assignments
 assign fval_posedge = fval && !fval_samp; 
-assign lval_negedge =  !lval && lval_samp; 
+assign lval_negedge = !lval && lval_samp; 
 assign en_posedge = en && !en_samp; 
 
 always @(posedge clk or posedge rst) begin
@@ -169,4 +169,5 @@ always @(posedge clk or posedge rst) begin
         
     end
 end
+
 endmodule

@@ -2,7 +2,7 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Frame generation top module.
-Version: 1.00
+Version: 1.01
 */
 
 module frame_gen #(
@@ -41,6 +41,12 @@ wire lval_out;
 wire dval_out;
 wire [7:0] pix_value; 
 
+assign fval = fval_out;
+assign lval = lval_out;
+assign dval = dval_out;
+assign pix_data = pix_value;
+
+
 //Instantiations
 frame_timing_gen #(.FPS(FPS),.CLK_FREQ_HZ(CLK_FREQ_HZ),.FVAL2LVAL(FVAL2LVAL),.LVAL2DVAL(LVAL2DVAL),
 .DVAL_HIGH(WIDTH),.ROW_COUNT(HEIGHT),.LVAL_HIGH(LVAL_HIGH),.LVAL_LOW(LVAL_LOW)) 
@@ -70,10 +76,5 @@ FRAME_PAT_GEN(
     .pix_value(pix_value)
     
 );    
-
-assign fval = fval_out;
-assign lval = lval_out;
-assign dval = dval_out;
-assign pix_data = pix_value;
 
 endmodule
