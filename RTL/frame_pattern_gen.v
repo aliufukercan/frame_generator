@@ -2,7 +2,7 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Generation of the patterns.
-Version: 1.02
+Version: 1.03
 */
 
 module frame_pattern_gen #(
@@ -36,17 +36,41 @@ reg [31:0] reg_pix_value;
 // Registers and wires for instantiation
 reg [31:0] width;
 reg [31:0] height;
-wire [1:0] pix_value1;    
-
+wire [1:0] pix_value_logo;    
+wire [1:0] pix_value_3d_squares;
+wire [7:0] decoded_pix_value_logo;
+wire [7:0] decoded_pix_value_3d_squares;
 //Calculate stretch.
 assign stretch = repeat1 * 255; 
 
 // Instantiation for LOGO
-pixel_memory #(.frame_width(DVAL_HIGH),.frame_height(ROW_COUNT)) 
-PIX_MEM (
+pixel_memory_logo #(.frame_width(DVAL_HIGH),.frame_height(ROW_COUNT))  
+PIX_MEM_LOGO (
+    .width(width), 
+    .height(height),
+    .pix_value(pix_value_logo)
+);
+
+// Instantiation for 3d_squares
+pixel_memory_3d_squares #(.frame_width(DVAL_HIGH),.frame_height(ROW_COUNT)) 
+PIX_MEM_3D_SQUARES (
     .width(width), 
     .height(height), 
-    .pix_value(pix_value1)
+    .pix_value(pix_value_3d_squares)
+);
+
+// Decode logo pixel values
+decoder DECODER_LOGO (
+    .pix_data(pix_value_logo),
+    .sel(sel),
+    .decoded_pix_data(decoded_pix_value_logo)
+);
+
+// Decode 3d_squares pixel values
+decoder DECODER_3D_SQUARES (
+    .pix_data(pix_value_3d_squares),
+    .sel(sel),
+    .decoded_pix_data(decoded_pix_value_3d_squares)    
 );
 
 always @(posedge clk or posedge rst) begin
@@ -175,6 +199,13 @@ always @(posedge clk or posedge rst) begin
         // 3D-1
         
         // 3D-2
+        if (sel == 3'b110) begin
+            if (dval == 1) begin
+                width <= counter_dval;
+                height <= line_counter;
+                pix_value <= decoded_pix_value_3d_squares;    
+            end               
+        end
         
         // SHAPES GEO will be added.
         
@@ -183,7 +214,7 @@ always @(posedge clk or posedge rst) begin
             if (dval == 1) begin
                 width <= counter_dval;
                 height <= line_counter;
-                pix_value <= pix_value1;    
+                pix_value <= decoded_pix_value_logo;    
             end               
         end  
         

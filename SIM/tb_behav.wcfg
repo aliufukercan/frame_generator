@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="134846615000000fs"></ZoomStartTime>
-      <ZoomEndTime time="134878875000001fs"></ZoomEndTime>
-      <Cursor1Time time="134858075000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="93215825000001fs"></ZoomEndTime>
+      <Cursor1Time time="30000000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="171"></NameColumnWidth>
-      <ValueColumnWidth column_width="92"></ValueColumnWidth>
+      <ValueColumnWidth column_width="64"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="14" />
+   <WVObjectSize size="19" />
    <wvobject fp_name="/tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -81,6 +81,30 @@
    <wvobject fp_name="/tb/FRAME_GEN/FRAME_TIME_GEN/line_counter" type="array">
       <obj_property name="ElementShortName">line_counter[31:0]</obj_property>
       <obj_property name="ObjectShortName">line_counter[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GRABBER/allow_write" type="logic">
+      <obj_property name="ElementShortName">allow_write</obj_property>
+      <obj_property name="ObjectShortName">allow_write</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GRABBER/i" type="array">
+      <obj_property name="ElementShortName">i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GRABBER/j" type="array">
+      <obj_property name="ElementShortName">j[31:0]</obj_property>
+      <obj_property name="ObjectShortName">j[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GRABBER/x" type="array">
+      <obj_property name="ElementShortName">x[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/FRAME_GRABBER/y" type="array">
+      <obj_property name="ElementShortName">y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
 </wave_config>
