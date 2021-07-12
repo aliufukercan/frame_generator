@@ -1,8 +1,8 @@
 
 /*
 Author: Ali Ufuk Ercan
-Description: Reading, encoding and storing the pixel values from given file.
-Version: 1.01
+Description: Reading and storing the pixel values from given file.
+Version: 1.00
 */
  
 module pixel_memory_logo #(
@@ -21,7 +21,7 @@ reg [1:0] memory [0:frame_height - 1] [0:frame_width - 1];
 
 
 initial begin
-    $readmemb("pgm_mikro_tasarim_string.txt",memory);
+    $readmemb("logo.txt",memory);
 end        
 
 
