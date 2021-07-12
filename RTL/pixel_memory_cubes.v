@@ -5,7 +5,7 @@ Description: Reading and storing the pixel values from given file.
 Version: 1.00
 */
  
-module pixel_memory_3d_squares #(
+module pixel_memory_cubes #(
 
     parameter frame_width       = 640,
     parameter frame_height      = 480      
@@ -21,7 +21,7 @@ reg [1:0] memory [0:frame_height - 1] [0:frame_width - 1];
 
 
 initial begin
-$readmemb("squares_3d_string.txt",memory);
+$readmemb("cubes.txt",memory);
 end        
 
 

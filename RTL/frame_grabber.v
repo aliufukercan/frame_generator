@@ -1,4 +1,3 @@
-`timescale 1ns / 1ps
 
 /*
 Author: Ali Ufuk Ercan
@@ -43,41 +42,48 @@ integer full_white;
 integer gradient;
 integer checkers;
 integer logo;
-integer squares_3d;
-
-
-initial begin
-
-// Open the files
-full_black = $fopen("D:/Vivado Projects/full_black.pgm","wb");
-full_white = $fopen("D:/Vivado Projects/full_white.pgm","wb");
-gradient = $fopen("D:/Vivado Projects/gradient.pgm","wb");
-checkers = $fopen("D:/Vivado Projects/checkers.pgm","wb");
-squares_3d = $fopen("D:/Vivado Projects/squares_3d.pgm","wb");
-logo = $fopen("D:/Vivado Projects/logo.pgm","wb");
-
-//headers(full_black);
-headers(logo);
-end
+integer cubes;
 
 // Create file headers
-task headers (
-    
-    input integer file
-    
+task headers (    
+    input integer file    
 );
-    begin
+begin
     $fstrobe(file,"P5");
     @(posedge clk);
     $fwrite(file,WIDTH);
     $fwrite(file," ");
     $fstrobe(file,HEIGHT);
     $fstrobe(file,"255");
-    end
+end
     
 endtask
 
+initial begin
 
+// Open the files
+full_black = $fopen("full_black.pgm","wb");
+full_white = $fopen("full_white.pgm","wb");
+gradient = $fopen("gradient.pgm","wb");
+checkers = $fopen("checkers.pgm","wb");
+cubes = $fopen("cubes.pgm","wb");
+logo = $fopen("logo.pgm","wb");
+
+headers(full_black);
+@(posedge clk);
+headers(full_white);
+@(posedge clk);
+headers(gradient);
+@(posedge clk);
+headers(checkers);
+@(posedge clk);
+headers(cubes);
+@(posedge clk);
+headers(logo);
+
+end
+
+// Store pixel values by using state machines.
 always @(posedge clk or posedge rst) begin
     
     if (rst == 1) begin
@@ -94,8 +100,7 @@ always @(posedge clk or posedge rst) begin
         idle: begin
             
             reset <= 1;
-            i <= 0;
-            j <= 0;
+
             
             if (fval)
                 state <= fval_val;
@@ -128,98 +133,89 @@ always @(posedge clk or posedge rst) begin
                     state <= lval_val;
                 end else
                     state <= lval_val;
-            end else begin 
-                state <= fval_val;
-                i <= 0;
-            end    
+            end else  
+                state <= fval_val;    
         end
         
         endcase
+        
     end
 
 end
 
-always @(posedge clk)begin
-     
-     if (en && !fval)   
-        for (y = 0; y <= j; y = y + 1) begin
-            for (x = 0; x <= i; x = x+ 1) begin
-                $fwriteb(logo,"%c",temp_memory[y][x]); 
-            end
-        end
+// Reset j every fval posedge
+always @(posedge fval) begin
+    j <= 0;
 end
 
-//always @(negedge fval)
-//    allow_write <= 1;
+// Reset i every lval posedge
+always @(posedge lval) begin
+    i <= 0;
+end
 
-//always @(posedge fval)
-//    allow_write <= 0;
+// Write the stored values to the files.
+always @(negedge fval) begin
+
+    if (en && !fval)  begin  
+        
+        if (sel == 3'b000) begin
             
-//always @(posedge clk) begin
-//if(allow_write) begin    
-//   if (sel == 3'b000) begin
-        
-//        headers(full_black);
-//        for (y = 0; y <= j; y = y + 1) begin
-//            for (x = 0; x <= i; x = x+ 1) begin
-//                $fwriteb(full_black,"%c",temp_memory[y][x]); 
-//            end
-//        end
-//        $fclose(full_black);
-        
-//    end else if (sel == 3'b001) begin
-        
-//        headers(full_white);
-//        for (y = 0; y <= j; y = y + 1) begin
-//            for (x = 0; x <= i; x = x+ 1) begin
-//                $fwriteb(full_white,"%c",temp_memory[y][x]); 
-//            end
-//        end
-//        $fclose(full_white);
-        
-//    end else if (sel == 3'b010) begin
-        
-//        headers(gradient);
-//        for (y = 0; y <= j; y = y + 1) begin
-//            for (x = 0; x <= i; x = x+ 1) begin
-//                $fwriteb(gradient,"%c",temp_memory[y][x]); 
-//            end
-//        end
-//        $fclose(gradient);
-        
-//    end else if (sel == 3'b011) begin
-        
-//        headers(checkers);           
-//        for (y = 0; y <= j; y = y + 1) begin
-//            for (x = 0; x <= i; x = x+ 1) begin
-//                $fwriteb(checkers,"%c",temp_memory[y][x]); 
-//            end
-//        end
-//        $fclose(checkers);
-        
-//    end else if (sel == 3'b110) begin
-        
-//        headers(squares_3d); 
-//        for (y = 0; y <= j; y = y + 1) begin
-//            for (x = 0; x <= i; x = x+ 1) begin
-//                $fwriteb(squares_3d,"%c",temp_memory[y][x]); 
-//            end
-//        end
-//        $fclose(squares_3d);
-        
-//    end else if (sel == 3'b111) begin
-        
-//        headers(logo); 
-//        for (y = 0; y <= j; y = y + 1) begin
-//            for (x = 0; x <= i; x = x+ 1) begin
-//                $fwriteb(logo,"%c",temp_memory[y][x]); 
-//            end
-//        end
-//        $fclose(logo);
+            for (y = 0; y <= j; y = y + 1) begin
+                for (x = 0; x < i; x = x+ 1) begin
+                    $fwriteb(full_black,"%c",temp_memory[y][x]); 
+                end
+            end
+            $fclose(full_black);
+       
+        end else if (sel == 3'b001) begin
+            
+            for (y = 0; y <= j; y = y + 1) begin
+                for (x = 0; x < i; x = x+ 1) begin
+                    $fwriteb(full_white,"%c",temp_memory[y][x]); 
+                end
+            end
+            $fclose(full_white);
+                 
+        end else if (sel == 3'b010) begin
+            
+            for (y = 0; y <= j; y = y + 1) begin
+                for (x = 0; x < i; x = x+ 1) begin
+                    $fwriteb(gradient,"%c",temp_memory[y][x]); 
+                end
+            end
+            $fclose(gradient);
+            
+        end else if (sel == 3'b011) begin
+                     
+            for (y = 0; y <= j; y = y + 1) begin
+                for (x = 0; x < i; x = x+ 1) begin
+                    $fwriteb(checkers,"%c",temp_memory[y][x]); 
+                end
+            end
+            $fclose(checkers);
+              
+        end else if (sel == 3'b110) begin
+            
+            for (y = 0; y <= j; y = y + 1) begin
+                for (x = 0; x < i; x = x+ 1) begin
+                    $fwriteb(cubes,"%c",temp_memory[y][x]); 
+                end
+            end
+            $fclose(cubes);
+            
+        end else if (sel == 3'b111) begin
+            
+            for (y = 0; y <= j; y = y + 1) begin
+                for (x = 0; x < i; x = x+ 1) begin
+                    $fwriteb(logo,"%c",temp_memory[y][x]); 
+                end
+            end
+            $fclose(logo);
+            
+        end   
+    end   
     
-    //end   
-//end    
-//end
+end
 
  
 endmodule

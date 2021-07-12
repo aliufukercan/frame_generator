@@ -49,6 +49,7 @@ wire fval_posedge;
 wire lval_negedge;
 wire en_posedge;
 
+//For outputs
 assign lval_negedge_out = lval_negedge;
 assign fval_posedge_out = fval_posedge;
 
@@ -74,7 +75,6 @@ always @(posedge clk or posedge rst) begin
 
     end else begin
 
-       
         //Make the signals start with high logic 
         
         if (en_posedge) begin
@@ -84,8 +84,7 @@ always @(posedge clk or posedge rst) begin
         
         // Store en signal
         en_samp <= en;
-        
-        
+            
         if (lval_negedge) begin
             if (line_counter >= (ROW_COUNT - 1)) begin        
                 lval <= 1'b0;
@@ -98,6 +97,7 @@ always @(posedge clk or posedge rst) begin
                 counter_lval <= 0;
             end              
         end    
+        
         
         // Store lval signal
         lval_samp <= lval;  

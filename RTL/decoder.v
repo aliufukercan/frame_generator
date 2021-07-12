@@ -26,7 +26,7 @@ always @(*) begin
         else 
             decoded_pix_data = 8'b01100100;    
     
-    end else if (sel == 3'b110) begin                 // squares_3d Decode
+    end else if (sel == 3'b110) begin                 // Cubes Decode
         
         if (pix_data == 2'b00) 
             decoded_pix_data = 8'b00000000;

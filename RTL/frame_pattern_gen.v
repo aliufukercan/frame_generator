@@ -37,9 +37,10 @@ reg [31:0] reg_pix_value;
 reg [31:0] width;
 reg [31:0] height;
 wire [1:0] pix_value_logo;    
-wire [1:0] pix_value_3d_squares;
+wire [1:0] pix_value_cubes;
 wire [7:0] decoded_pix_value_logo;
-wire [7:0] decoded_pix_value_3d_squares;
+wire [7:0] decoded_pix_value_cubes;
+
 //Calculate stretch.
 assign stretch = repeat1 * 255; 
 
@@ -51,12 +52,12 @@ PIX_MEM_LOGO (
     .pix_value(pix_value_logo)
 );
 
-// Instantiation for 3d_squares
-pixel_memory_3d_squares #(.frame_width(DVAL_HIGH),.frame_height(ROW_COUNT)) 
-PIX_MEM_3D_SQUARES (
+// Instantiation for cubes
+pixel_memory_cubes #(.frame_width(DVAL_HIGH),.frame_height(ROW_COUNT)) 
+PIX_MEM_CUBES (
     .width(width), 
     .height(height), 
-    .pix_value(pix_value_3d_squares)
+    .pix_value(pix_value_cubes)
 );
 
 // Decode logo pixel values
@@ -66,11 +67,11 @@ decoder DECODER_LOGO (
     .decoded_pix_data(decoded_pix_value_logo)
 );
 
-// Decode 3d_squares pixel values
-decoder DECODER_3D_SQUARES (
-    .pix_data(pix_value_3d_squares),
+// Decode cubes pixel values
+decoder DECODER_CUBES (
+    .pix_data(pix_value_cubes),
     .sel(sel),
-    .decoded_pix_data(decoded_pix_value_3d_squares)    
+    .decoded_pix_data(decoded_pix_value_cubes)    
 );
 
 always @(posedge clk or posedge rst) begin
@@ -198,12 +199,12 @@ always @(posedge clk or posedge rst) begin
         
         // 3D-1
         
-        // 3D-2
+        // Cubes
         if (sel == 3'b110) begin
             if (dval == 1) begin
                 width <= counter_dval;
                 height <= line_counter;
-                pix_value <= decoded_pix_value_3d_squares;    
+                pix_value <= decoded_pix_value_cubes;    
             end               
         end
         
