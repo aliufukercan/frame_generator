@@ -2,4 +2,4 @@ frame_generator
 .Xil
 *.jou
 *.log
-*.ip_user_files
+*.ip_user_files 
