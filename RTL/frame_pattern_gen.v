@@ -38,8 +38,10 @@ reg [31:0] width;
 reg [31:0] height;
 wire [1:0] pix_value_logo;    
 wire [1:0] pix_value_cubes;
+wire [1:0] pix_value_choco_bar;
 wire [7:0] decoded_pix_value_logo;
 wire [7:0] decoded_pix_value_cubes;
+wire [7:0] decoded_pix_value_choco_bar;
 
 //Calculate stretch.
 assign stretch = repeat1 * 255; 
@@ -60,6 +62,14 @@ PIX_MEM_CUBES (
     .pix_value(pix_value_cubes)
 );
 
+// Instantiation for choco_bar
+pixel_memory_choco_bar #(.frame_width(DVAL_HIGH),.frame_height(ROW_COUNT)) 
+PIX_MEM_CHOCO_BAR (
+    .width(width), 
+    .height(height), 
+    .pix_value(pix_value_choco_bar)
+);
+
 // Decode logo pixel values
 decoder DECODER_LOGO (
     .pix_data(pix_value_logo),
@@ -72,6 +82,13 @@ decoder DECODER_CUBES (
     .pix_data(pix_value_cubes),
     .sel(sel),
     .decoded_pix_data(decoded_pix_value_cubes)    
+);
+
+// Decode choco_bar pixel values
+decoder DECODER_CHOCO_BAR (
+    .pix_data(pix_value_choco_bar),
+    .sel(sel),
+    .decoded_pix_data(decoded_pix_value_choco_bar)    
 );
 
 always @(posedge clk or posedge rst) begin
@@ -122,16 +139,52 @@ always @(posedge clk or posedge rst) begin
         // Creating the patterns
         //////////////////////////
         
-        // Full Black
+        // Straps
         if (sel == 3'b000) begin
-            if (dval)
-                pix_value <= 8'b00000000; 
+            
+            if (line_counter < (ROW_COUNT / 16) ||
+            (line_counter >= (ROW_COUNT * 4 / 16) && line_counter < (ROW_COUNT * 5 / 16)) ||
+            (line_counter >= (ROW_COUNT * 8 / 16) && line_counter < (ROW_COUNT * 9 / 16)) ||
+            (line_counter >= (ROW_COUNT * 12 / 16) && line_counter < (ROW_COUNT * 13 / 16)) ) begin
+            
+                if (dval)
+                    pix_value <= 8'b00000000; 
+                    
+            end else if (line_counter < (ROW_COUNT * 2 / 16) ||
+            (line_counter >= (ROW_COUNT * 5 / 16) && line_counter < (ROW_COUNT * 6 / 16)) ||
+            (line_counter >= (ROW_COUNT * 9 / 16) && line_counter < (ROW_COUNT * 10 / 16)) ||
+            (line_counter >= (ROW_COUNT * 13 / 16) && line_counter < (ROW_COUNT * 14 / 16)) ) begin
+            
+                if (dval)
+                    pix_value <= 8'b01010101;
+            
+            end else if (line_counter < (ROW_COUNT * 3 / 16) ||
+            (line_counter >= (ROW_COUNT * 6 / 16) && line_counter < (ROW_COUNT * 7 / 16)) ||
+            (line_counter >= (ROW_COUNT * 10 / 16) && line_counter < (ROW_COUNT * 11 / 16)) ||
+            (line_counter >= (ROW_COUNT * 14 / 16) && line_counter < (ROW_COUNT * 15 / 16)) ) begin
+            
+                if (dval)
+                    pix_value <= 8'b10101010;
+                
+            end else if (line_counter < (ROW_COUNT * 4 / 16) ||
+            (line_counter >= (ROW_COUNT * 7 / 16) && line_counter < (ROW_COUNT * 8 / 16)) ||
+            (line_counter >= (ROW_COUNT * 11 / 16) && line_counter < (ROW_COUNT * 12 / 16)) ||
+            (line_counter >= (ROW_COUNT * 15 / 16) && line_counter < ROW_COUNT) ) begin
+            
+                if (dval)
+                    pix_value <= 8'b11111111;
+                    
+            end
+            
         end
         
-        // Full White
+        // Choco_bar
         if (sel == 3'b001) begin
-            if (dval)
-                pix_value <= 8'b11111111;
+            if (dval == 1) begin
+                width <= counter_dval;
+                height <= line_counter;
+                pix_value <= decoded_pix_value_choco_bar;    
+            end        
         end
         
         // Gradient

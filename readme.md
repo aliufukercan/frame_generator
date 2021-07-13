@@ -14,7 +14,7 @@ Source File | Description | Input Ports | Output Ports
 frame_gen.v | Top module. |clk, rst, en, sel|fval, lval, dval, pix_data
 frame_timing_gen.v | Creates fval, lval and dval signals. | clk, rst, en | fval, lval, dval, lval_negedge_out, fval_posedge_out
 frame_pattern_gen.v | Creates image patterns. | clk, rst, sel, dval, lval_negedge, fval_posedge | pix_value
-pixel_memory_cubes.v pixel_memory_logo.v | Reads and stores the pixel values in memory. | width, height | pix_value
+pixel_memory_cubes.v </br> pixel_memory_logo.v </br>  pixel_memory_choco_bar.v| Reads and stores the pixel values in memory. | width, height | pix_value
 decoder.v | Decodes the pixel values in memory.| pix_data, sel | decoded_pix_data
 frame_grabber | Writes the decoded pixel values to a file. | clk, rst, fval, lval, dval, sel, en , pix_data |
 

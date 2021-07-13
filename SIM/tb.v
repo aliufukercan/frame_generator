@@ -84,10 +84,10 @@ rst <= 1;
 rst <= 0;
 en <= 1;
 
-@(posedge fval); // Full Black
+@(posedge fval); // Straps
 sel <= 3'b000;
 
-@(posedge fval); // Full White
+@(posedge fval); // Choco_bar
 sel <= 3'b001;
 
 @(posedge fval); // Gradient

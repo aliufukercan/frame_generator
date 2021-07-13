@@ -20,3 +20,9 @@
 - 2 seperate block memory added for cubes and logo patterns.
 - Decoder and frame grabber modules added.
 - read.md updated.
+
+</br>
+
+# 1.04 - 2021-07-13
+- 2 new patterns added instead of full-black and full-white patterns. 
+- read.md updated.

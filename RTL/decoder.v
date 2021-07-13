@@ -3,7 +3,7 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Decodes the given data.
-Version: 1.00
+Version: 1.01
 */
 
 module decoder(
@@ -35,6 +35,15 @@ always @(*) begin
         else 
             decoded_pix_data = 8'b00110010; 
     
+    end else if (sel == 3'b001) begin                 // Choco_bar Decode
+        
+        if (pix_data == 2'b00) 
+            decoded_pix_data = 8'b00000000;
+        else if (pix_data == 2'b11)
+            decoded_pix_data = 8'b10010110;
+        else 
+            decoded_pix_data = 8'b00110010;
+            
     end else 
         decoded_pix_data = 8'b00000000;        
 end   

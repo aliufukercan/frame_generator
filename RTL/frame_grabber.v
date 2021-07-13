@@ -37,8 +37,8 @@ reg [31:0] x;
 reg [31:0] y;
 
 // For writing to file
-integer full_black;
-integer full_white;
+integer straps;
+integer choco_bar;
 integer gradient;
 integer checkers;
 integer logo;
@@ -62,16 +62,16 @@ endtask
 initial begin
 
 // Open the files
-full_black = $fopen("full_black.pgm","wb");
-full_white = $fopen("full_white.pgm","wb");
+straps = $fopen("straps.pgm","wb");
+choco_bar = $fopen("choco_bar.pgm","wb");
 gradient = $fopen("gradient.pgm","wb");
 checkers = $fopen("checkers.pgm","wb");
 cubes = $fopen("cubes.pgm","wb");
 logo = $fopen("logo.pgm","wb");
 
-headers(full_black);
+headers(straps);
 @(posedge clk);
-headers(full_white);
+headers(choco_bar);
 @(posedge clk);
 headers(gradient);
 @(posedge clk);
@@ -162,19 +162,19 @@ always @(negedge fval) begin
             
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
-                    $fwriteb(full_black,"%c",temp_memory[y][x]); 
+                    $fwriteb(straps,"%c",temp_memory[y][x]); 
                 end
             end
-            $fclose(full_black);
+            $fclose(straps);
        
         end else if (sel == 3'b001) begin
             
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
-                    $fwriteb(full_white,"%c",temp_memory[y][x]); 
+                    $fwriteb(choco_bar,"%c",temp_memory[y][x]); 
                 end
             end
-            $fclose(full_white);
+            $fclose(choco_bar);
                  
         end else if (sel == 3'b010) begin
             
