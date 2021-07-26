@@ -2,7 +2,7 @@
 /*
 Author: Ali Ufuk Ercan
 Description: Writes pixel values to file.
-Version: 1.00
+Version: 1.01
 */
 
 module frame_grabber #(
@@ -21,7 +21,8 @@ module frame_grabber #(
     input en,
     input [7:0] pix_data
     );
-    
+
+// Local parameters for state machine    
 parameter idle = 2'b00;
 parameter fval_val = 2'b01;
 parameter lval_val = 2'b10;
@@ -46,14 +47,16 @@ integer cubes;
 
 // Create file headers
 task headers (    
-    input integer file    
+    input integer file,    
+    input [31:0] width,
+    input [31:0] height
 );
 begin
     $fstrobe(file,"P5");
     @(posedge clk);
-    $fwrite(file,WIDTH);
+    $fwrite(file,width);
     $fwrite(file," ");
-    $fstrobe(file,HEIGHT);
+    $fstrobe(file,height);
     $fstrobe(file,"255");
 end
     
@@ -68,18 +71,6 @@ gradient = $fopen("gradient.pgm","wb");
 checkers = $fopen("checkers.pgm","wb");
 cubes = $fopen("cubes.pgm","wb");
 logo = $fopen("logo.pgm","wb");
-
-headers(straps);
-@(posedge clk);
-headers(choco_bar);
-@(posedge clk);
-headers(gradient);
-@(posedge clk);
-headers(checkers);
-@(posedge clk);
-headers(cubes);
-@(posedge clk);
-headers(logo);
 
 end
 
@@ -101,7 +92,6 @@ always @(posedge clk or posedge rst) begin
             
             reset <= 1;
 
-            
             if (fval)
                 state <= fval_val;
             else
@@ -160,6 +150,8 @@ always @(negedge fval) begin
         
         if (sel == 3'b000) begin
             
+            headers(straps,i,j+1);
+            @(posedge clk);
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
                     $fwriteb(straps,"%c",temp_memory[y][x]); 
@@ -169,6 +161,8 @@ always @(negedge fval) begin
        
         end else if (sel == 3'b001) begin
             
+            headers(choco_bar,i,j+1);
+            @(posedge clk);
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
                     $fwriteb(choco_bar,"%c",temp_memory[y][x]); 
@@ -178,6 +172,8 @@ always @(negedge fval) begin
                  
         end else if (sel == 3'b010) begin
             
+            headers(gradient,i,j+1);
+            @(posedge clk);
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
                     $fwriteb(gradient,"%c",temp_memory[y][x]); 
@@ -186,7 +182,9 @@ always @(negedge fval) begin
             $fclose(gradient);
             
         end else if (sel == 3'b011) begin
-                     
+            
+            headers(checkers,i,j+1);
+            @(posedge clk);         
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
                     $fwriteb(checkers,"%c",temp_memory[y][x]); 
@@ -196,6 +194,8 @@ always @(negedge fval) begin
               
         end else if (sel == 3'b110) begin
             
+            headers(cubes,i,j+1);
+            @(posedge clk);
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
                     $fwriteb(cubes,"%c",temp_memory[y][x]); 
@@ -205,6 +205,8 @@ always @(negedge fval) begin
             
         end else if (sel == 3'b111) begin
             
+            headers(logo,i,j+1);
+            @(posedge clk);
             for (y = 0; y <= j; y = y + 1) begin
                 for (x = 0; x < i; x = x+ 1) begin
                     $fwriteb(logo,"%c",temp_memory[y][x]); 
